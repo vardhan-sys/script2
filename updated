@@ -1,0 +1,16 @@
+#!/bin/bash
+sudo yum update -y
+cd /opt
+sudo wget https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz
+sudo wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.64/bin/apache-tomcat-8.5.64.tar.gz
+sudo tar -zxvf apache-tomcat-8.5.64.tar.gz
+sudo yum install maven -y
+sudo yum install git -y
+sudo git clone https://github.com/sriison/srini-petclinic.git
+sudo tar -zxvf OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz
+sudo mv jdk8u282-b08 java8
+sudo mv apache-tomcat-8.5.64 tomcat8
+sudo chown -R ec2-user:ec2-user /opt
+sudo cd /opt/srini-petclinic/&&mvn clean package
+sudo cp /opt/srini-petclinic/target/petclinic.war /opt/tomcat8/webapps/
+sudo sh /opt/tomcat8/bin/startup.sh
